@@ -1,7 +1,8 @@
 import { CategoryButton } from "@/components/categoryButton";
 import { Header } from "@/components/header";
-import { View, Text, FlatList } from "react-native";
-import { CATEGORIES } from "@/utils/data/products";
+import { Product } from "@/components/product";
+import { View, Text, SectionList, FlatList } from "react-native";
+import { CATEGORIES, MENU } from "@/utils/data/products";
 import { useState } from "react";
 
 export default function Home() {
@@ -26,9 +27,24 @@ export default function Home() {
           />
         )}
         horizontal
-        className="max-w-10 mt-5"
-        contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }}
+        className="max-h-10 mt-5"
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 12, paddingHorizontal: 20 }}
+      />
+
+      <SectionList
+        sections={MENU}
+        keyExtractor={(item) => item.id}
+        stickySectionHeadersEnabled={false}
+        renderItem={({ item }) => <Product data={item} />}
+        renderSectionHeader={({ section: { title } }) => (
+          <Text className="text-white text-xl font-heading mt-8 mb-3">
+            {title}
+          </Text>
+        )}
+        className="flex-1 p-5"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 100 }}
       />
     </View>
   );
