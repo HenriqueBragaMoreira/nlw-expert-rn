@@ -1,5 +1,5 @@
 import { Header } from "@/components/header";
-import { View, Text, ScrollView, Alert } from "react-native";
+import { View, Text, ScrollView, Alert, Linking } from "react-native";
 import { Product } from "@/components/product";
 import { ProductCartProps, useCartStore } from "@/stores/cartStore";
 import { formatCurrency } from "@/utils/functions/formatCurrency";
@@ -10,6 +10,8 @@ import { Feather } from "@expo/vector-icons";
 import { BackButton } from "@/components/backButton";
 import { useState } from "react";
 import { useNavigation } from "expo-router";
+
+const PHONE_NUMBER = process.env.EXPO_PUBLIC_PHONE_NUMBER;
 
 export default function Cart() {
   const [address, setAddress] = useState("");
@@ -46,6 +48,9 @@ export default function Cart() {
 
     const message = `🍔 NOVO PEDIDO \n Entregar em: ${address} ${products} \n Valor total: ${total}`;
 
+    Linking.openURL(
+      `http://api.whatsapp.com/send?phone=${PHONE_NUMBER}&text=${message}`
+    );
     cartStore.clear();
     navigation.goBack();
   }
